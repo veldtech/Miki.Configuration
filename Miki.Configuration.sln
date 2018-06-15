@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miki.Configuration", "Miki.Configuration\Miki.Configuration.csproj", "{F917B2D8-3201-4325-A4D1-27355C66E69D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miki.Configuration.Providers.Json", "Miki.Configuration.Providers.Json\Miki.Configuration.Providers.Json.csproj", "{C25BADD8-5FAD-4D4A-BE63-7D2D606A4EF5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F917B2D8-3201-4325-A4D1-27355C66E69D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F917B2D8-3201-4325-A4D1-27355C66E69D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F917B2D8-3201-4325-A4D1-27355C66E69D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F917B2D8-3201-4325-A4D1-27355C66E69D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C25BADD8-5FAD-4D4A-BE63-7D2D606A4EF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C25BADD8-5FAD-4D4A-BE63-7D2D606A4EF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C25BADD8-5FAD-4D4A-BE63-7D2D606A4EF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C25BADD8-5FAD-4D4A-BE63-7D2D606A4EF5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {59B24155-5C83-44F6-9A25-46D575AB79E1}
+	EndGlobalSection
+EndGlobal

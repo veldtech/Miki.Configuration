@@ -22,7 +22,7 @@ namespace Miki.Configuration
 			{
 				string containerId = container.Type.Name;
 
-				List<KeyValuePair<string, object>> values = container.ConfigurableItems.Select(x => new KeyValuePair<string, object>(x.Type.Name, x.GetValue<object>())).ToList();
+				List<KeyValuePair<string, object>> values = container.ConfigurableItems.Select(x => new KeyValuePair<string, object>(x.Type.Name, x.GetValue())).ToList();
 
 				ExpandoObject value = new ExpandoObject();
 
@@ -62,7 +62,7 @@ namespace Miki.Configuration
 								{
 									if (obj is JProperty valueProperty)
 									{
-										ConfigurationItem item = newContainer.ConfigurableItems.FirstOrDefault(x => x.Type.Name == valueProperty.Name);
+										IConfigurationItem item = newContainer.ConfigurableItems.FirstOrDefault(x => x.Type.Name == valueProperty.Name);
 										item.SetValue(valueProperty.Value.ToObject(item.Type.PropertyType));
 									}
 								}
