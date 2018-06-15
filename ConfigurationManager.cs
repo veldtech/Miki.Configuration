@@ -64,9 +64,9 @@ namespace Miki.Configuration
 			await provider.ImportAsync(filePath, this);
 		}
 
-		public void RegisterType<T>(T instance)
+		public void RegisterType(Type type, object instance)
 		{
-			var configurables = instance.GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+			var configurables = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
 				.Where(y => y.GetCustomAttributes<ConfigurableAttribute>().Count() > 0).ToList();
 
 			if (configurables.Count == 0)
@@ -74,7 +74,7 @@ namespace Miki.Configuration
 				return;
 			}
 
-			ConfigurationContainer container = new ConfigurationContainer(instance.GetType(), instance);
+			ConfigurationContainer container = new ConfigurationContainer(type, instance);
 
 			foreach (var configurable in configurables)
 			{
@@ -82,6 +82,10 @@ namespace Miki.Configuration
 			}
 
 			configurationItems.Add(container);
+		}
+		public void RegisterType<T>(T instance)
+		{
+			RegisterType(typeof(T), instance);
 		}
 	}
 

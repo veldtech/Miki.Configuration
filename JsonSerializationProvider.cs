@@ -14,7 +14,7 @@ namespace Miki.Configuration
 	{
 		public async Task ExportAsync(string file, IEnumerable<ConfigurationContainer> manager)
 		{
-			System.IO.StreamWriter sw = new System.IO.StreamWriter(file);
+			StreamWriter sw = new StreamWriter(file);
 
 			Dictionary<string, object> ok = new Dictionary<string, object>();
 
@@ -38,13 +38,6 @@ namespace Miki.Configuration
 			sw.Flush();
 			sw.Close();
 		}
-
-		/*"ServerCountModule" : {
-		 *	/* Name: ConnectionString
-		 *	Description: Connects our bot to the CountAPI * /
-		 *	"ConnectionString": "default",
-		 *}
-		 */
 
 		public async Task ImportAsync(string file, ConfigurationManager manager)
 		{
@@ -78,6 +71,8 @@ namespace Miki.Configuration
 					}
 				}
 			}
+
+			sr.Close();
 		}
 	}
 }
