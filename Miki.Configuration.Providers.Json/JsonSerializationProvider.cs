@@ -12,40 +12,63 @@ namespace Miki.Configuration
 {
 	public class JsonSerializationProvider : ISerializationProvider
 	{
+		JsonSerializerSettings serializationSettings;
+
+		public JsonSerializationProvider()
+		{
+			serializationSettings = new JsonSerializerSettings();
+			serializationSettings.Formatting = Formatting.Indented;
+		}
+		public JsonSerializationProvider(JsonSerializerSettings settings)
+		{
+			serializationSettings = settings;
+		}
+
 		public async Task ExportAsync(string file, IEnumerable<ConfigurationContainer> manager)
 		{
-			StreamWriter sw = new StreamWriter(file);
+			Dictionary<string, object> allObjects = new Dictionary<string, object>();
 
-			Dictionary<string, object> ok = new Dictionary<string, object>();
-
-			foreach(var container in manager)
+			foreach (var container in manager)
 			{
 				string containerId = container.Type.Name;
 
-				List<KeyValuePair<string, object>> values = container.ConfigurableItems.Select(x => new KeyValuePair<string, object>(x.Type.Name, x.GetValue())).ToList();
+				List<KeyValuePair<string, object>> values = container.ConfigurableItems
+					.Select(x => new KeyValuePair<string, object>(x.Type.Name, x.GetValue())).ToList();
 
 				ExpandoObject value = new ExpandoObject();
 
-				foreach(var v in values)
+				foreach (var v in values)
 				{
 					((IDictionary<string, object>)value).Add(v.Key, v.Value);
 				}
 
-				ok.Add(containerId, value);
+				allObjects.Add(containerId, value);
 			}
 
-			await sw.WriteAsync(JsonConvert.SerializeObject(ok, Formatting.Indented));
-			sw.Flush();
-			sw.Close();
+			string json = JsonConvert.SerializeObject(allObjects, serializationSettings);
+
+			using (StreamWriter sw = new StreamWriter(new FileStream(file, FileMode.OpenOrCreate, FileAccess.ReadWrite)))
+			{
+				await sw.WriteAsync(json);
+			}
 		}
 
 		public async Task ImportAsync(string file, ConfigurationManager manager)
 		{
 			List<ConfigurationContainer> containers = new List<ConfigurationContainer>();
+			string json = "";
 
-			StreamReader sr = new StreamReader(file);
-			string fileContent = await sr.ReadToEndAsync();
-			object o = JsonConvert.DeserializeObject(fileContent);
+			using (StreamReader sr = new StreamReader(new FileStream(file, FileMode.Open, FileAccess.Read)))
+			{
+				json = await sr.ReadToEndAsync();
+			}
+
+			if (string.IsNullOrWhiteSpace(json))
+			{
+				throw new ArgumentNullException("File contains no data");
+			}
+
+			object o = JsonConvert.DeserializeObject(json);
 
 			if (o is JObject ob)
 			{
@@ -54,6 +77,7 @@ namespace Miki.Configuration
 					if (container is JProperty property)
 					{
 						ConfigurationContainer newContainer = manager.Containers.FirstOrDefault(x => x.Type.Name == property.Name);
+						
 						if (newContainer != null)
 						{
 							foreach (JObject value in property.Children())
@@ -71,8 +95,6 @@ namespace Miki.Configuration
 					}
 				}
 			}
-
-			sr.Close();
 		}
 	}
 }
