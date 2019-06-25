@@ -33,7 +33,8 @@ namespace Miki.Configuration
 				string containerId = container.Type.Name;
 
 				List<KeyValuePair<string, object>> values = container.ConfigurableItems
-					.Select(x => new KeyValuePair<string, object>(x.Type.Name, x.GetValue())).ToList();
+					.Select(x => new KeyValuePair<string, object>(x.Type.Name, x.GetValue()))
+                    .ToList();
 
 				ExpandoObject value = new ExpandoObject();
 
@@ -47,7 +48,13 @@ namespace Miki.Configuration
 
 			string json = JsonConvert.SerializeObject(allObjects, serializationSettings);
 
-			using (StreamWriter sw = new StreamWriter(new FileStream(file, FileMode.OpenOrCreate, FileAccess.ReadWrite)))
+            if (File.Exists(file))
+            {
+                File.Delete(file);
+            }
+
+            using (StreamWriter sw = new StreamWriter(
+                new FileStream(file, FileMode.OpenOrCreate, FileAccess.ReadWrite)))
 			{
 				await sw.WriteAsync(json);
 			}

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject></StartupObject>
@@ -13,6 +13,7 @@
     <PackageProjectUrl>https://github.com/mikibot/miki.configuration</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mikibot/miki.configuration</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
